@@ -1,3 +1,4 @@
+#needed - nterfaces with Stockfish, gets AI's move based on the opponent’s move.
 from chess import uci
 
 class StockfishPlayer(object):

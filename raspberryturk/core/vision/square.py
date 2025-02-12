@@ -1,3 +1,4 @@
+#needed - Represents an individual square on the chessboard.
 class Square(object):
     def __init__(self, position, raw_img):
         self.position = position

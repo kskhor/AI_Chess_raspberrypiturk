@@ -1,3 +1,4 @@
+#needed - Identifies legal moves based on the detected board state.
 import numpy as np
 import chess
 from copy import copy

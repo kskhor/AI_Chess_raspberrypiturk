@@ -1,3 +1,4 @@
+#needed - Captures the chessboard image using a camera.
 import cv2
 import chess
 from raspberryturk.core.vision.chessboard_frame import ChessboardFrame

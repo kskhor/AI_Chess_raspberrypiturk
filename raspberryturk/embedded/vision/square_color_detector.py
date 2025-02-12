@@ -1,3 +1,4 @@
+# needed - Detects pieces on the board using machine learning(but doesnt have the model, refer to how to train a new colour detection ...)
 import numpy as np
 import pickle
 import logging

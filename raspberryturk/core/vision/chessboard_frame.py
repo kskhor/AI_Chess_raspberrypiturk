@@ -1,3 +1,4 @@
+#needed - Extracts individual squares from the chessboard image.
 import numpy as np
 from square import Square
 from constants import SQUARE_SIZE, BOARD_SIZE

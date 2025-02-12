@@ -1,3 +1,4 @@
+#needed - Reads and writes game state (PGN format)
 import os
 import logging
 import chess

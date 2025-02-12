@@ -1,0 +1,62 @@
+Files Used vs. Not Used in Your AI Chess System
+Your AI chess system follows this pipeline:
+
+Capture an image of the chessboard.
+Detect chess piece presence and determine the opponent's move (human).
+Convert the detected move to UCI format.
+Pass the move to Stockfish, which calculates the AI move.
+Apply the move and repeat.
+🔹 Files That Are USED in Your System
+These files directly contribute to the vision-based AI chess system.
+
+1️⃣ Camera & Image Processing
+✅ chess_camera.py → Captures the chessboard image using a camera.
+✅ chessboard_perspective_transform.py → Corrects camera perspective to align the board properly.
+
+2️⃣ Board & Piece Detection
+✅ chessboard_frame.py → Extracts individual squares from the chessboard image.
+✅ square.py → Represents an individual square on the chessboard.
+✅ square_color_detector.py → Detects pieces on the board using machine learning.
+✅ helpers.py → Identifies legal moves based on the detected board state.
+
+3️⃣ Move Handling & AI Decision Making
+✅ agent.py → Manages the decision-making process. It identifies the human move and passes it to Stockfish.
+✅ stockfish_player.py → Interfaces with Stockfish, gets AI's move based on the opponent’s move.
+
+4️⃣ Game State Management
+✅ __init__.py (game management) → Reads and writes game state (PGN format).
+✅ raspberryturkd.py → Runs the AI system in a continuous loop.
+
+🔻 Files That Are NOT Used
+These files are not needed for your vision-based chess system but may have been useful for a different project.
+
+❌ collection.py → Used for collecting and saving random chessboard images. (Only needed for dataset creation, not real-time play.)
+❌ constants.py → Defines SQUARE_SIZE and BOARD_SIZE. (Could be replaced with hardcoded values, but keeping it is fine.)
+❌ raw_pixels_extractor.py → Extracts raw pixel features, but we are using square_color_detector instead.
+❌ human_player.py → Allows a human to input moves via UNIX socket, not needed since the human moves physically.
+❌ player.py → Just a base class for chess players, not necessary.
+❌ dataset.py → Handles dataset saving/loading, only useful for training models.
+❌ create_dataset.py → Used for creating datasets, not needed for live gameplay.
+
+🔹 What You Need to ADD to Make This Work
+Your system is almost complete, but you still need a few things:
+
+1️⃣ Better Move Detection Algorithm
+Right now, possible_moves_for_board() assumes that only one move is possible.
+What if multiple pieces could have moved?
+Solution: Implement a piece tracking system that compares the current board with the previous one and finds exactly which piece moved.
+2️⃣ Improve Camera Calibration
+If your camera is slightly misaligned, piece detection will fail.
+Solution: Modify recalibrate_camera_position() in chessboard_perspective_transform.py to make calibration more robust.
+3️⃣ Handle Game Start & End
+What happens when the game starts? Is Stockfish playing White or Black?
+What happens when the game ends? Should it restart?
+Solution: Modify raspberryturkd.py to handle game start/reset logic.
+4️⃣ Debugging & Testing
+Print out intermediate steps (like detected board states, moves, etc.).
+Use test images of chessboards and compare detected vs. actual moves.
+🔹 Final Steps
+Integrate everything into one script to run the full pipeline.
+Test piece recognition with a real chessboard.
+Fine-tune move detection to handle tricky cases (castling, en passant).
+Improve robustness (handle camera shifts, lighting changes, etc.).

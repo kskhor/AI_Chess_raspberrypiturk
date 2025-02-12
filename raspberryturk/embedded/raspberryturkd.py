@@ -1,3 +1,4 @@
+#needed - Runs the AI system in a continuous loop.
 import logging
 import signal
 import time

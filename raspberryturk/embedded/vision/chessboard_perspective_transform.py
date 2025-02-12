@@ -1,3 +1,4 @@
+#needed - Corrects camera perspective to align the board properly.
 import numpy as np
 import logging
 from raspberryturk import lib_path, RaspberryTurkError, setup_console_logging
