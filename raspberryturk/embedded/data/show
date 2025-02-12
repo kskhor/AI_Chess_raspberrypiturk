@@ -1,0 +1,11 @@
+1. collection.py
+What it does:
+Captures images of a chessboard using a camera.
+Generates random chess positions with a RandomBoard class, placing pieces at random.
+Saves images along with the corresponding FEN (Forsyth-Edwards Notation) representation of the board.
+Allows rotating the board setup (r key), capturing an image (c key), or quitting (q key).
+Uses OpenCV to process images and overlays chess piece labels on them before displaying.
+Usefulness:
+✅ Highly useful if you are collecting chessboard images for dataset generation or vision-based piece recognition.
+❌ Unnecessary if using predefined images or not dealing with a camera-based system​
+.

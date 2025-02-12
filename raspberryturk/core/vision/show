@@ -1,0 +1,29 @@
+Here’s a **very specific** breakdown of each file and whether it is useful:
+
+1. **`chessboard_frame.py`**  
+   - **Purpose**: Defines a `ChessboardFrame` class that extracts individual squares from a chessboard image. Uses `SQUARE_SIZE` and `BOARD_SIZE` to determine square positions. Returns a `Square` object for a given index (0-63).  
+   - **Usefulness**: **Essential** for processing chessboard images and extracting squares. If you're working with vision-based chess piece recognition, this is a **must-have**.
+
+2. **`constants.py`**  
+   - **Purpose**: Defines two constants:  
+     - `SQUARE_SIZE = 60` (size of a chess square in pixels)  
+     - `BOARD_SIZE = SQUARE_SIZE * 8` (size of the full board in pixels)  
+   - **Usefulness**: **Useful** as a central place to modify square/board size settings. However, if sizes are hardcoded elsewhere, this file might not be necessary.
+
+3. **`helpers.py`**  
+   - **Purpose**: Provides helper functions for board operations:  
+     - `_colored_board_mask_for_board()`: Creates a 64-element list marking which squares have pieces and their colors.  
+     - `possible_moves_for_board()`: Finds legal moves that keep the board’s color mask unchanged.  
+     - `pawn_board_from_colored_board_mask()`: Creates a chessboard with only pawns from a color mask.  
+   - **Usefulness**: **Potentially useful** for chess AI or move validation. If you don't need specialized move filtering, it may be **unnecessary**.
+
+4. **`square.py`**  
+   - **Purpose**: Defines a `Square` class representing a single chessboard square. Stores its position and image data. Also includes `is_grayscale()` to check if the image is grayscale.  
+   - **Usefulness**: **Necessary** for handling image-based chess processing. If you're using images for board state recognition, this is a **must-have**.
+
+### **Final Verdict:**
+- **Must-have**: `chessboard_frame.py`, `square.py`
+- **Useful**: `constants.py` (if used consistently), `helpers.py` (if move validation logic is needed)
+- **Can remove**: `helpers.py` (if you don’t need custom move filtering)
+
+Would you like any improvements or simplifications for these files?

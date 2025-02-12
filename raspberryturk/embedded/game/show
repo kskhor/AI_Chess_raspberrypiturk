@@ -1,0 +1,7 @@
+2. __init__.py 
+What it does:
+First file (51†source) initializes and manages chess games, reading and saving PGN (Portable Game Notation) files.
+Supports saving games and syncing them with a Git repository.
+Provides functions to start a new game, apply moves, and track board state.
+
+✅ First version (51†source) is useful for game management and move tracking.

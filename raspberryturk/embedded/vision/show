@@ -1,0 +1,29 @@
+3. chess_camera.py
+What it does:
+Interfaces with a webcam to capture the current state of the chessboard.
+Uses a perspective transformation to align the board correctly.
+Detects the color of squares and generates a "colored board mask" representing piece locations.
+Usefulness:
+✅ Essential if working with live chessboard image processing.
+❌ Not needed if using digital chess representations instead of real-world boards​
+.
+
+4. chessboard_perspective_transform.py
+What it does:
+Applies a perspective transformation to align the chessboard from a camera feed.
+Uses machine learning techniques (polynomial regression) to calibrate the camera’s position.
+Ensures that the chessboard appears correctly oriented for processing.
+Usefulness:
+✅ Critical for chessboard image recognition; required if using a camera.
+❌ Useless if not dealing with real-world board images​
+.
+
+5. square_color_detector.py
+What it does:
+Uses a trained machine learning model (Support Vector Classifier) to determine the color of squares on a chessboard.
+Loads PCA-transformed data for feature extraction.
+Determines whether a square is occupied and by which color.
+Usefulness:
+✅ Necessary if using a camera to detect board state.
+❌ Not needed for digital chess implementations​
+.

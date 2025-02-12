@@ -1,0 +1,17 @@
+class_encoding.py: Defines encoding functions to classify chess pieces based on their symbols (e.g., p for pawn, k for king). It provides different encoding methods like checking if a square is empty, identifying piece colors, and mapping symbols to numerical values​
+.
+
+create_dataset.py: Uses processed image data to create a dataset. It loads images of chessboard squares, extracts features, assigns labels using encoding functions, and splits the data into training and validation sets. It also supports class balancing, one-hot encoding, and ZCA whitening​
+.
+
+dataset.py: Defines a Dataset class to store and manage dataset files. It provides functions to save and load datasets in .npz format, storing training/validation data along with optional whitening transformations and metadata​
+.
+
+feature_extractor.py: Defines an abstract FeatureExtractor class with a placeholder extract_features method. Other feature extraction classes inherit from this and implement their own extraction logic​
+.
+
+process_raw.py: Processes raw chessboard images, extracts squares from them, and saves them as labeled images in different formats (RGB and grayscale). It organizes them into directories based on their labels (e.g., piece type, position, and rotation)​
+.
+
+raw_pixels_extractor.py: Implements RawPixelsExtractor, a subclass of FeatureExtractor, which extracts raw pixel values from images, normalizes them, and flattens them into feature vectors for dataset creation​
+.

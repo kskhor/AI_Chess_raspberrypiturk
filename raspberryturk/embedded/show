@@ -1,0 +1,27 @@
+2. __init__.py
+What it does:
+Second file (55†source) ensures that the code runs only on a system called "Raspberry Turk."
+Usefulness:
+❌ Second version (55†source) is only necessary if running on Raspberry Turk hardware. Otherwise, it must be removed or modified.
+
+6. agent.py
+What it does:
+Controls the AI’s perception and decision-making.
+Uses a camera to detect board state and determine moves.
+Decides whether a human or Stockfish (AI) should make the next move.
+Stores the game status in a status.txt file.
+Usefulness:
+✅ Very useful if building an autonomous chess-playing robot.
+❌ Unnecessary if manually inputting moves instead of using image recognition​
+.
+
+7. raspberryturkd.py
+What it does:
+Manages a daemon process that continuously runs the chess-playing AI.
+Uses signal handlers to gracefully stop/start the AI.
+Works with Agent to run an automated perception-action loop.
+Usefulness:
+✅ Essential if the chess system runs as a background process.
+❌ Not needed if running scripts manually without automation​
+
+
