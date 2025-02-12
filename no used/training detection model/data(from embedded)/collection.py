@@ -1,3 +1,5 @@
+# unused - Used for collecting and saving random chessboard images. (Only needed for dataset creation, not real-time play.)
+# can be used in training model(collect chessboard images and manually label squares.)
 import numpy as np
 import cv2
 import os

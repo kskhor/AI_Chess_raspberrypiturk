@@ -1,3 +1,4 @@
+#unused - Allows a human to input moves via UNIX socket, not needed since the human moves physically.
 import socket
 import sys
 import os

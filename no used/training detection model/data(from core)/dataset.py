@@ -1,3 +1,4 @@
+#unused - Handles dataset saving/loading, only useful for training models.
 import numpy as np
 
 class Dataset(object):

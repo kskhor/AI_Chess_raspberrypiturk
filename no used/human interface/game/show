@@ -1,0 +1,19 @@
+Here’s a very specific breakdown of each file and whether it's useful:
+
+1. **`human_player.py`**  
+   - **Purpose**: Implements a chess player that receives moves from a human via a UNIX domain socket. The script runs a server that listens for a move input, validates it against legal moves, and returns the selected move.  
+   - **Usefulness**: Useful if you want to integrate human input into your chess system. If you only need AI-based play, this file isn't necessary.
+
+2. **`player.py`**  
+   - **Purpose**: Defines a base `Player` class with a placeholder `select_move(board)` method. Other player types should inherit from this and implement `select_move()`.  
+   - **Usefulness**: Acts as a base class but has no functionality on its own. Needed only if multiple player types (human, AI) are being managed in a structured way.
+
+3. **`stockfish_player.py`**  
+   - **Purpose**: Implements an AI chess player using Stockfish. It interacts with Stockfish via UCI (Universal Chess Interface), sets up the board position, and requests the best move within a time constraint.  
+   - **Usefulness**: Highly useful if you want an AI-powered opponent. If Stockfish isn't being used, this file is unnecessary.
+
+### Summary:
+- **Keep**: `stockfish_player.py` (if using AI), `human_player.py` (if human interaction is needed), `player.py` (if structuring multiple player types).  
+- **Remove**: `human_player.py` if you don't need human input, `player.py` if there's no need for inheritance.  
+
+Would you like any modifications to make these more useful?

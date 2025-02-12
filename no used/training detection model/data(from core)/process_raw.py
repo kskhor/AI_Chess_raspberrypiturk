@@ -1,3 +1,5 @@
+#unused
+# can be used in training model(Reads raw chessboard images, splits them into individual squares, and saves processed versions.Converts images into RGB and grayscale formats for dataset creation)
 import numpy as np
 import cv2
 import os

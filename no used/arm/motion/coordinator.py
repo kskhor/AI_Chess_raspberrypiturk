@@ -1,3 +1,4 @@
+#unused - for arm only
 import numpy as np
 import chess
 import logging

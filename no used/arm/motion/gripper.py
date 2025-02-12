@@ -1,3 +1,4 @@
+#unused - for arm only
 import RPi.GPIO as GPIO
 from time import sleep
 import chess

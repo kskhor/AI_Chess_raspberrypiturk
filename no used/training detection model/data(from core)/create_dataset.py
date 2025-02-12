@@ -1,3 +1,4 @@
+#unused - Used for creating datasets, not needed for live gameplay.
 import numpy as np
 import cv2
 import os

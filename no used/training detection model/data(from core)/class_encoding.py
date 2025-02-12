@@ -1,3 +1,5 @@
+#unused - Used for dataset labeling during training, not real-time piece detection.
+#can be used in training model(Provides encoding functions that map chess piece symbols (p, k, q, etc.) to numerical values.)
 def _symbols_dict(symbols):
     return dict(zip(symbols, range(len(symbols))))
 

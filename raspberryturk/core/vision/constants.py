@@ -1,2 +1,3 @@
+#needed - define
 SQUARE_SIZE = 60
 BOARD_SIZE = SQUARE_SIZE * 8
