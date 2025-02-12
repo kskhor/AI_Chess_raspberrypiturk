@@ -1,0 +1,158 @@
+### **Is the Model Already Trained in `square_color_detector.py`?**  
+Yes, the model is already trained and **loaded** from a file, but there is **no code in the provided files to train a new model**. The model was previously trained and saved as:  
+- **SVM model:** `square_color_detector.svc`  
+- **PCA model:** `square_color_detector.pca`  
+
+#### **How Does It Load the Model?**  
+In `square_color_detector.py`, the function `_load_svc()` loads the trained model:  
+```python
+def _load_svc(logger):
+    try:
+        svc_path = opt_path('square_color_detector.svc')
+        logger.info("Loading {}...".format(svc_path))
+        with open(svc_path, 'rb') as f:
+            svc = pickle.load(f)
+
+        pca_path = opt_path('square_color_detector.pca')
+        logger.info("Loading {}...".format(pca_path))
+        with open(pca_path, 'rb') as f:
+            pca = pickle.load(f)
+
+        _convert_to_32bit_pca(pca)
+        return svc, pca
+    except IOError as e:
+        raise RaspberryTurkError("Square color detector can't find required file: {}".format(e.filename))
+```
+- The `pickle.load(f)` function loads the **pre-trained model**.  
+- If the model files (`.svc`, `.pca`) are missing, the detection **will not work**.  
+
+#### **What This Means for You**  
+- If you are happy with the current trained model, you don’t need to do anything.  
+- If you want to train a **new model**, you must **add a new script** to train and save `square_color_detector.svc` and `square_color_detector.pca`.  
+
+---
+
+## **How to Train a New Model for Piece Detection**
+Since `square_color_detector.py` uses **Support Vector Machines (SVM) with PCA**, we need to:
+1. **Collect Data** → Extract labeled images of squares from chessboard images.  
+2. **Extract Features** → Convert images into numerical data using `RawPixelsExtractor`.  
+3. **Train an SVM Model** → Train a new classifier using `sklearn.svm.SVC`.  
+4. **Train a PCA Model** → Reduce dimensionality for better performance.  
+5. **Save the Model** → Store it as `.svc` and `.pca` for `square_color_detector.py` to use.  
+
+---
+
+### **Step 1: Prepare Your Data**
+You need labeled training data where:
+- **Input**: Chessboard square images.
+- **Labels**: Piece type (`None`, `White`, `Black`).
+
+**Option 1**: Use `collection.py` to collect chessboard images and manually label squares.  
+**Option 2**: Use an existing dataset of chess pieces (e.g., Lichess dataset, Kaggle datasets).  
+
+---
+
+### **Step 2: Extract Features from Chessboard Images**
+Modify `process_raw.py` to extract raw pixel features:  
+```python
+import numpy as np
+import cv2
+from raw_pixels_extractor import RawPixelsExtractor
+
+def extract_features_from_image(image_path):
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    extractor = RawPixelsExtractor()
+    return extractor.extract_features(img)
+
+# Example usage
+image_path = "path/to/chessboard_square.jpg"
+features = extract_features_from_image(image_path)
+print(features.shape)  # Should be (width*height,)
+```
+- This converts each square image into a **flattened vector** of pixel values.  
+- You need to do this for **all training images** and store the features in a dataset.  
+
+---
+
+### **Step 3: Train the SVM Model**
+Train a Support Vector Machine (SVM) classifier using the extracted features.  
+```python
+import numpy as np
+import pickle
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+
+# Load your dataset (features and labels)
+X = np.load("features.npy")  # Load extracted features
+y = np.load("labels.npy")    # Load corresponding labels (0=empty, 1=white, 2=black)
+
+# Split into training/testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train an SVM classifier
+svm = SVC(kernel="linear", probability=True)
+svm.fit(X_train, y_train)
+
+# Save the trained model
+with open("square_color_detector.svc", "wb") as f:
+    pickle.dump(svm, f)
+```
+- This trains an SVM to classify squares as empty, white piece, or black piece.  
+- It saves the trained SVM as `square_color_detector.svc`.  
+
+---
+
+### **Step 4: Train PCA for Dimensionality Reduction**
+Apply **Principal Component Analysis (PCA)** to improve performance:  
+```python
+from sklearn.decomposition import PCA
+
+# Reduce dimensions for faster processing
+pca = PCA(n_components=50)  # Keep top 50 features
+X_train_pca = pca.fit_transform(X_train)
+X_test_pca = pca.transform(X_test)
+
+# Save PCA model
+with open("square_color_detector.pca", "wb") as f:
+    pickle.dump(pca, f)
+```
+- PCA reduces feature size, making SVM training faster.  
+- Saves the PCA model as `square_color_detector.pca`.  
+
+---
+
+### **Step 5: Test the Model**
+Verify that the model works:  
+```python
+# Load the trained model
+with open("square_color_detector.svc", "rb") as f:
+    svm = pickle.load(f)
+
+with open("square_color_detector.pca", "rb") as f:
+    pca = pickle.load(f)
+
+# Test on new data
+test_features = extract_features_from_image("test_square.jpg")
+test_features_pca = pca.transform(test_features.reshape(1, -1))
+prediction = svm.predict(test_features_pca)
+print("Predicted class:", prediction)  # Should print 0 (empty), 1 (white), or 2 (black)
+```
+
+---
+
+### **Final Steps**
+1. **Collect chessboard square images** (both empty and occupied).  
+2. **Extract features** from images using `RawPixelsExtractor`.  
+3. **Train an SVM model** with labeled data (`square_color_detector.svc`).  
+4. **Train a PCA model** to reduce dimensionality (`square_color_detector.pca`).  
+5. **Replace the old model** in `square_color_detector.py` with your new trained models.  
+6. **Test the new model** on real chessboard images.  
+
+---
+
+### **TL;DR:**
+✅ The current model **is already trained** and loads from `.svc` and `.pca` files.  
+✅ **If you want to train a new model, you must create a separate training script**.  
+✅ You need **images of squares**, **extract features**, **train an SVM + PCA**, and **save them** for use.  
+
+🚀 Want me to write a **full training script** for you? Let me know! 🎯♟️🔥
